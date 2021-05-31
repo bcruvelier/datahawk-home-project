@@ -45,17 +45,17 @@ See the [terraform](terraform) folder.
 To deploy the infrastructure using Azure Devops I would use the "Pipelines" and "Environments" method. 
 
 The pipeline would have the following Stages : 
-- \[DEV\] Terraform Plan (that will be triggered on a commit on any branch to facilitate debugging)
-- \[DEV\] Terraform Apply
-- \[INTEGRATION\] Terraform Plan (that will be triggered on a commit on master branch only)
-- \[INTEGRATION\] Terraform Apply
-- \[PRODUCTION\] Terraform Plan (that will be triggered on a commit on master branch only)
-- \[PRODUCTION\] Terraform Apply
+- _\[DEV\] Terraform Plan_ (that will be triggered on a commit on any branch to facilitate debugging)
+- _\[DEV\] Terraform Apply_
+- _\[INTEGRATION\] Terraform Plan_ (that will be triggered on a commit on master branch only)
+- _\[INTEGRATION\] Terraform Apply_
+- _\[PRODUCTION\] Terraform Plan_ (that will be triggered on a commit on master branch only)
+- _\[PRODUCTION\] Terraform Apply_
 
 The idea behind splitting Terraform Plan and Apply is to be able to see what is going to be changed during the Apply stage before it's too late (I've seen Terraform behaving strangely with some resource). In order for the Apply stage not to be launched automatically, I would add reviewers for all of them. 
 
 ## Terraform Plan Stage
-Here are the steps for the "Terraform Plan" Stage : 
+Here are the steps for the "_Terraform Plan_" Stage : 
 - Prepare Terraform Storage : This step creates a storage account and a container in it (if they don't already exists)
 - Replace tokens in *.tf Files : This step is used to replace tokens in the tf files (azurerm version, location, environment name, ...)
 - Install Terraform
@@ -66,7 +66,7 @@ Here are the steps for the "Terraform Plan" Stage :
 - Publish pipeline artifact
 
 ## Terraform Apply Stage
-Here are the steps for the "Terraform Apply" Stage : 
+Here are the steps for the "_Terraform Apply_" Stage : 
 - Install Terraform
 - Download Pipeline Artifact
 - Terraform Init
@@ -86,8 +86,8 @@ And 2 globals variable groups that contains all the information that will be the
 
 # 5. Describe how you will secure all secret information & password during the deployment process.
 I see two ways of doing it : 
-    1. Storing all sensible informations in an Azure Devops Variable Group with the "secret" type. 
-    2. Storing all sensible informations in an Azure keyvault and configure Azure Devops to retrieve it. 
+1. Storing all sensible informations in an Azure Devops Variable Group with the "secret" type. 
+2. Storing all sensible informations in an Azure keyvault and configure Azure Devops to retrieve it. 
 
 # 6. Describe how you will add monitoring & alerting with which tool.
 ## Dashboarding
@@ -101,6 +101,7 @@ Meanwhile, the function should send the logs to an application like Splunk or EL
 
 # 7. During the deployment, you need to stop a Windows Service before the deployment and restart it after. Could you provide the script that will do that?
 See [Invoke-WindowsService.ps1](Invoke-WindowsService.ps1) file. 
+
 For this one I assume that the user that will launch the script (probably the user that runs the azure devops agent) have the rights to remotely connect to the server. 
 If not, I'll add a Credential parameter to the script and launch the commands remotely via the Invoke-Command Cmdlet. 
 
