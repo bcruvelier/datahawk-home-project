@@ -61,33 +61,33 @@ function Stop-RemoteService {
 }
 
 function Start-RemoteService {
-	[CmdletBinding()]
-	param(
+    [CmdletBinding()]
+    param(
         [Parameter(Mandatory=$true,Position=0,HelpMessage="Service Name")]
             [string]$ServiceName,
-		
+        
         [Parameter(Mandatory=$true,Position=1,HelpMessage="Server")]
             [ValidateScript({Test-Connection -ComputerName $_ -Quiet -Count 1})]
             [string]$Server
-	)
-	try{
-		$Service = Get-Service -ComputerName $Server -Name "$ServiceName"
-		if($Service){
+    )
+    try{
+        $Service = Get-Service -ComputerName $Server -Name "$ServiceName"
+        if($Service){
             Write-Verbose "[$Server] Service [$Service] present"
-			if($Service | Where-Object {$_.Status -eq "Stopped"}){
+            if($Service | Where-Object {$_.Status -eq "Stopped"}){
                 Write-Host "[$Server] Stopping service [$ServiceName]"
-				Write-CEGIDEventLog -Message "$Server : Demarrage du service $ServiceName" -EntryType Information
-				Start-Service -InputObject $Service
-				Start-Sleep -Seconds 5
-			}else{
+                Write-CEGIDEventLog -Message "$Server : Demarrage du service $ServiceName" -EntryType Information
+                Start-Service -InputObject $Service
+                Start-Sleep -Seconds 5
+            }else{
                 Write-Warning "[$Server] service [$ServiceName] not stopped (status : $($_.Status))"
             }
-		}else{
+        }else{
             throw "Service does not exist"
-		}
-	}catch{
+        }
+    }catch{
         throw "Error while starting service [$ServiceName] on server [$Server] : $_"
-	}
+    }
 }
 #endregion
 
