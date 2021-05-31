@@ -26,10 +26,10 @@ With this configuration, the build will be triggered everytime a commit is made 
 The release Pipeline could look something like this : 
 ![Release Pipeline](ReleasePipeline.png)
 
-    1. Here we configure the Continuous Deployment to automatically deploy to the Dev environment everytime a new build is available for the Master Branch : 
+(1) : Here we configure the Continuous Deployment to automatically deploy to the Dev environment everytime a new build is available for the Master Branch : 
 ![Release Triggers](ReleaseTriggers.png)
 
-    2. and 3. I'd add approvers for the Integration and Production environment to avoid some code going to production too soon. 
+(2) and (3) : I'd add approvers for the Integration and Production environment to avoid some code going to production too soon. 
 
 In each stage I would use the built-in task "_Azure Function App Deploy_" to deploy (maybe using Task Groups to make it easy to edit all the stages at once)
 
